@@ -27,6 +27,7 @@ urlpatterns = [
 
     path('log', views.log_view),
     path('signup', views.signup_view),
+    path('cart', views.cart),
 
     path('logout', LogoutView.as_view(template_name='library/index.html')),
     path('afterlogin', views.afterlogin_view),
