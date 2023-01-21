@@ -12,7 +12,7 @@ from django.core.mail import send_mail
 def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request,'C:/Users/Pablo/Desktop/WUST/Software Engeniering/Project/softwareEngineeringProject/libraryManagemetSystem/template/index.html')
+    return render(request,'index.html')
 
 def log_view(request):
     if request.user.is_authenticated:
