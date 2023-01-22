@@ -25,9 +25,14 @@ urlpatterns = [
     path('accounts/',include('django.contrib.auth.urls') ),
     path('', views.home_view),
 
-    path('log', views.log_view),
-    path('signup', views.signup_view),
-    path('cart', views.cart),
+    path('student/', views.student , name='student') ,
+    path('student/studentlogin/' , views.studentlogin, name = 'studentlogin'),
+    path('student/studentsignup/' , views.studentsignup , name='studentsignup') , 
+    
+    path('librarian/', views.librarian , name = 'librarian'),
+    path('librarian/librarianlogin/' , views.librarianlogin , name='librarianlogin' ), 
+
+    
 
     path('logout', LogoutView.as_view(template_name='library/index.html')),
     path('afterlogin', views.afterlogin_view),

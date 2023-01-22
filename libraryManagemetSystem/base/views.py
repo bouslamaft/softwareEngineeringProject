@@ -12,33 +12,23 @@ from django.core.mail import send_mail
 def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
-    return render(request,'index.html')
+    # return render(request,'index.html')
+    return render(request ,'library/index.html' ) # Fathi view
 
-def log_view(request):
-    if request.user.is_authenticated:
-        return HttpResponseRedirect('afterlogin')
-    return render(request,'login/log.html')
+def student(request):
+    return render(request , 'library/student.html')
+    #add your code here 
+def studentlogin(request):
+    return render(request, 'login/studentlogin.html')
 
-def signup_view(request):
-    form1=forms.StudentUserForm()
-    form2=forms.StudentExtraForm()
-    mydict={'form1':form1,'form2':form2}
-    if request.method=='POST':
-        form1=forms.StudentUserForm(request.POST)
-        form2=forms.StudentExtraForm(request.POST)
-        if form1.is_valid() and form2.is_valid():
-            user=form1.save()
-            user.set_password(user.password)
-            user.save()
-            f2=form2.save(commit=False)
-            f2.user=user
-            user2=f2.save()
+def studentsignup(request):
+    return render(request , 'login/studentsignup.html')
 
-            my_student_group = Group.objects.get_or_create(name='STUDENT')
-            my_student_group[0].user_set.add(user)
+def librarian(request):
+    return render (request, 'library/librarian.html')
 
-        return HttpResponseRedirect('studentlogin')
-    return render(request,'library/studentsignup.html',context=mydict)
+def librarianlogin(request):
+    return render(request , 'login/librarianlogin.html')
 
 def afterlogin_view(request):
     return 
