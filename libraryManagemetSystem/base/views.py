@@ -13,7 +13,7 @@ def home_view(request):
     if request.user.is_authenticated:
         return HttpResponseRedirect('afterlogin')
     # return render(request,'index.html')
-    return render(request ,'library/index.html' ) # Fathi view
+    return render(request ,'index.html' ) # Fathi view
 
 def student(request):
     return render(request , 'library/student.html')
@@ -44,6 +44,6 @@ def contactus_view(request):
             email = sub.cleaned_data['Email']
             name=sub.cleaned_data['Name']
             message = sub.cleaned_data['Message']
-            send_mail(str(name)+' || '+str(email),message, EMAIL_HOST_USER, ['wapka1503@gmail.com'], fail_silently = False)
+            send_mail(str(name)+' || '+str(email),message, EMAIL_HOST_USER, ['a@gmail.com'], fail_silently = False)
             return render(request, 'base/contactussuccess.html')
     return render(request, 'base/contactus.html', {'form':sub})    
