@@ -10,15 +10,8 @@ from datetime import datetime,timedelta,date
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.core.mail import send_mail
 
-class Book:
-  def __init__(self, ISBN, Title, Author, Category, Referrence, Status, Action):
-    self.isbn = ISBN
-    self.title = Title
-    self.author = Author
-    self.aategory = Category
-    self.is_referrence_only = Referrence
-    self.status = Status
-    self.Action = Action
+
+from libraryManagemetSystem.storage.models import Book
 
 def home_view(request):
     if request.user.is_authenticated:
@@ -27,11 +20,8 @@ def home_view(request):
     return render(request ,'index.html') # Fathi view
 
 def listBooks(request):
-    books = []
-    
-    for i in range (0,21):
-        b1 = Book(i,i,i,i,i,i,i)
-        books.append(b1)
+            
+    books = Book.objects.all()
 
     page = request.GET.get('page')
     paginator = Paginator(books, 5) # Show 5 books per page.
