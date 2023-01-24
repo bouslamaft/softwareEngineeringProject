@@ -10,8 +10,12 @@ class Book(Model):
     categories = ManyToManyField(Category, related_name="books")
     authors = ManyToManyField(Author, related_name="books")
 
+    def __str__(self):
+        return f"Book({self.name})"
+
 
 class PhysicalBook(Model):
+    id = CharField(primary_key=True, max_length=256)
     book = ForeignKey(Book, related_name="physical_books", on_delete=CASCADE)
 
 
