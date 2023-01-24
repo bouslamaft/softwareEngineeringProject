@@ -1,7 +1,7 @@
 from django.db.models import Model, CharField, ForeignKey, SET_NULL, CASCADE, DateTimeField, ManyToManyField
 from django.contrib.auth.models import User
 
-from libraryManagemetSystem.storage.models import Category, Author
+from lms.storage.models import Category, Author
 
 
 class Book(Model):

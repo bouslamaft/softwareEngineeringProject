@@ -1,5 +1,5 @@
-./libraryManagemetSystem/libraryManagemetSystem/__pycache__/*
-./libraryManagemetSystem/base/__pycache__/*
+lms/__pycache__/*
+base/__pycache__/*
 ./dev/*
 
 **/__pycache__/*
@@ -7,3 +7,4 @@
 .idea/
 venv/
 
+db.sqlite3
