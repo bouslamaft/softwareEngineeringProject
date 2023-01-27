@@ -6,7 +6,7 @@
 
 <div class="container-fluid">
   
-  <h3 class="m-4">All Book<i class="fa-solid fa-plus mt-5"></i></a></h3>
+  <h3 class="m-4">All Books<i class="fa-solid fa-plus mt-5"></i></a></h3>
   {% if messages %}
     <ul class="messages">
         {% for message in messages %}
@@ -17,12 +17,45 @@
         {% endfor %}
     </ul>
   {% endif %}
+
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><input class="form-control" id="myInput" type="text" placeholder="Search.."></th>
+        <th>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Order by ...
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><center><a href="">ISBN</a></center></li>
+              <li><center><a href="">Title</a></center></li>
+              <li><center><a href="">Author</a></center></li>
+              <li><center><a href="">Category</a></center></li>
+            </ul>
+          </div>
+        </th>
+      </tr>
+    </thead>
+  </table>
+
+  
+
   <div class="row">
     <div class="col-12">
       {% if books_obj %}
 
       <div class="card text-white bg-primary ms-4 mr-4 mt-4 mb-4">
-        <div class="card-header">All Book</div>
+        <div class="card-header">All Books</div>
         <div class="card-body">
           <p class="card-text">
             <div class="table-responsive">
@@ -31,22 +64,20 @@
                   <tr>
                     <th scope="col">ISBN</th>
                     <th scope="col">Title</th>
-                    <th scope="col">Author</th>
-                    <th scope="col">Category</th>
-                    <th scope="col">Is Referrence Only</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">Action</th>
+                    <th scope="col">Authors</th>
+                    <th scope="col">Categories</th>
+                    
                   </tr>
                 </thead>
-                <tbody>
+                <tbody id="myTable">
                   {% for book in books_obj %}
                   <tr class="table-primary">
                     <td>{{book.isbn}}</td>
-                    <td>{{book.title}}</td>
+                    <td>{{book.name}}</td>
                     <td>{{book.author}}</td>
                     <td>{{book.category}}</td>
-                    <td>{{book.is_referrence_only}}</td>
-                    <td>{{book.status}}</td>
+                    <td><a class="page-link" href="/rent/{{book.isbn}}">Rent</a></td>
+                    <td><a class="page-link" href="/details/{{book.isbn}}">Details</a></td>
                   </tr>
                   {% endfor %}
                 </tbody>

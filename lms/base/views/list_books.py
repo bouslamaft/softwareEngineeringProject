@@ -20,4 +20,15 @@ def list_books_view(request):
         books_obj = paginator.page(page)
 
     context = {'books_obj': books_obj, 'paginator': paginator}
-    return render(request, 'listBooks.html', context)
+    return render(request, 'books/listBooks.html', context)
+
+
+def rent_view(request, isbn):
+    book = Book.objects.get(pk=isbn)
+    context = {'book':book}
+    return render(request, 'books/rent.html', context)
+
+def book_view(request, isbn):
+    book = Book.objects.get(pk=isbn)
+    context = {'book':book}
+    return render(request, 'books/book.html', context)
