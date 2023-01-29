@@ -1,8 +1,8 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
-from lms.storage.models import Book
-
+from lms.storage.models import Book, PhysicalBook, PhysicalBookRentHistory
+from datetime import datetime, timedelta
 
 def list_books_view(request):
     books = Book.objects.all()
@@ -38,8 +38,32 @@ def list_books_view(request):
 
 def rent_view(request, isbn):
     book = Book.objects.get(pk=isbn)
-    context = {'book':book}
+    physicalBook = PhysicalBook.objects.filter(book=book)
+    
+    count = 0
+    #for i in range(0, physicalBook.count()):
+        #sphycalBookHistory = PhysicalBookRentHistory.objects.filter(id=str(isbn)+"-"+str(i))
+        #if phycalBookHistory.count() > 0:
+            #count+=1
+    
+    total = physicalBook.count() - count
+    
+    context = {'book':book, 'physicalBook': physicalBook, 'amm': total}
     return render(request, 'books/rent.html', context)
+
+def rented_book_view(request, isbn):
+    book = Book.objects.get(pk=isbn)
+    physicalBook = PhysicalBook.objects.filter(book=book)
+    current_user = request.user
+    current_dateTime = datetime.now()
+    deadline_dateTime = current_dateTime + timedelta(days=14)
+    
+    
+    
+    pbrh = PhysicalBookRentHistory(rented_by=current_user, physical_book=physicalBook[0],rented_on=current_dateTime, rent_deadline=deadline_dateTime)
+    pbrh.save()
+    
+    return redirect('/listBooks')
 
 def book_view(request, isbn):
     book = Book.objects.get(pk=isbn)

@@ -12,8 +12,45 @@
     <center>
         <p>ISBN: {{ book.isbn }}</p>
         <p>Title: {{ book.name }}</p>
-        <p>Authors: {{ book.author }}</p>
-        <p>Categories: {{ book.category }}</p>
+        <p>Authors: 
+            {% for author in book.authors.all %}
+                {% if forloop.last %}
+                    {{author}}
+                {% else %}
+                    {{author}},
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>Categories: 
+            {% for category in book.categories.all %}
+                {% if forloop.last %}
+                    {{category}}
+                {% else %}
+                    {{category}},
+                {% endif %}
+            {% endfor %}
+        </p>
+        
+        <h4>Stock: {{amm}}</h4>
+
+        <table>
+            <tr>
+                <!--
+                <td>
+                    <select class="form-control" id="exampleFormControlSelect1">
+                        {% for i in physicalBook %}
+                            <option value="{{forloop.counter}}">{{forloop.counter}}</option>
+                        {% endfor %}
+                    </select>
+                </td>
+                -->
+                <td>
+                    <div class="page-item active">
+                        <a class="page-link" href="/rentedBook/{{book.isbn}}">Rent the book</a>
+                    </div>
+                </td>
+            </tr>
+        </table>
     </center>
 </div>
 {% endblock content %}

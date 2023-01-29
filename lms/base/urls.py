@@ -8,7 +8,7 @@ from lms.base.views.home import home_view
 from lms.base.views.about_us import about_us_view
 from lms.base.views.list_books import list_books_view
 from lms.base.views.authentication import login_view, registration_view
-from lms.base.views.list_books import rent_view
+from lms.base.views.list_books import rent_view, rented_book_view
 from lms.base.views.list_books import book_view
 
 
@@ -18,6 +18,7 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('listBooks/', list_books_view),
     path('rent/<int:isbn>', rent_view),
+    path('rentedBook/<int:isbn>', rented_book_view),
     path('details/<int:isbn>', book_view),
 
     path('student/', student_view, name='student'),
