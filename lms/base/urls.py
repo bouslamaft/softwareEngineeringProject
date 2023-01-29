@@ -7,6 +7,7 @@ from lms.base.views.librarian import librarian_view
 from lms.base.views.home import home_view
 from lms.base.views.about_us import about_us_view
 from lms.base.views.list_books import list_books_view
+from lms.base.views.authentication import login_view, registration_view
 
 
 urlpatterns = [
@@ -19,6 +20,9 @@ urlpatterns = [
 
     path('librarian/', librarian_view, name='librarian'),
 
+
+    path('login/', login_view, name='login'),
+    path('registration/', registration_view, name='registration'),
     path('logout', LogoutView.as_view(template_name='library/index.html')),
 
     path('aboutus', about_us_view),
