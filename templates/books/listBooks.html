@@ -37,10 +37,9 @@
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Order by ...
             <span class="caret"></span></button>
             <ul class="dropdown-menu">
-              <li><center><a href="">ISBN</a></center></li>
-              <li><center><a href="">Title</a></center></li>
-              <li><center><a href="">Author</a></center></li>
-              <li><center><a href="">Category</a></center></li>
+              <li><center><a href="/listBooks?filter=isbn">ISBN</a></center></li>
+              <li><center><a href="/listBooks?filter=title">Title</a></center></li>
+              <li><center><a href="/listBooks">No order</a></center></li>
             </ul>
           </div>
         </th>
@@ -74,8 +73,24 @@
                   <tr class="table-primary">
                     <td>{{book.isbn}}</td>
                     <td>{{book.name}}</td>
-                    <td>{{book.author}}</td>
-                    <td>{{book.category}}</td>
+                    <td>
+                      {% for author in book.authors.all %}
+                        {% if forloop.last %}
+                          {{author}}
+                        {% else %}
+                          {{author}},
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                    <td>
+                      {% for category in book.categories.all %}
+                        {% if forloop.last %}
+                          {{category}}
+                        {% else %}
+                          {{category}},
+                        {% endif %}
+                      {% endfor %}
+                    </td>
                     <td><a class="page-link" href="/rent/{{book.isbn}}">Rent</a></td>
                     <td><a class="page-link" href="/details/{{book.isbn}}">Details</a></td>
                   </tr>
@@ -99,24 +114,24 @@
     <ul class="pagination">
       {% if books_obj.has_previous %}
       <li class="page-item">
-        <a class="page-link" href="?page={{books_obj.previous_page_number}}">&laquo;</a>
+        <a class="page-link" href="?page={{books_obj.previous_page_number}}&filter={{filteredData}}">&laquo;</a>
       </li>
       {% endif %}
       {% for page in paginator.page_range %}
       {% if page == books_obj.number %}
       <li class="page-item active">
-        <a class="page-link" href="?page={{page}}">{{page}}</a>
+        <a class="page-link" href="?page={{page}}&filter={{filteredData}}">{{page}}</a>
       </li>
       {% else %}
       
       <li class="page-item">
-        <a class="page-link" href="?page={{page}}">{{page}}</a>
+        <a class="page-link" href="?page={{page}}&filter={{filteredData}}">{{page}}</a>
       </li>
       {% endif %}
       {% endfor %}
       {% if books_obj.has_next %}
       <li class="page-item">
-        <a class="page-link" href="?page={{books_obj.next_page_number}}">&raquo;</a>
+        <a class="page-link" href="?page={{books_obj.next_page_number}}&filter={{filteredData}}">&raquo;</a>
       </li>
       {% endif %}
     </ul>

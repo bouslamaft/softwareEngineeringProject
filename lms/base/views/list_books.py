@@ -7,6 +7,19 @@ from lms.storage.models import Book
 def list_books_view(request):
     books = Book.objects.all()
 
+    filterData = request.GET.get('filter', None)
+    
+    if(filterData=='isbn'):
+        books = Book.objects.all().order_by('-isbn')
+    elif(filterData!='title'):
+        books = Book.objects.all().order_by('name')
+    elif(filterData!='author'):
+        books = Book.objects.all().order_by('-authors')
+    elif(filterData!='category'):
+        books = Book.objects.all().order_by('-categories')
+    else:
+        books = Book.objects.all()
+        
     page = request.GET.get('page')
     paginator = Paginator(books, 5)
 
@@ -19,7 +32,7 @@ def list_books_view(request):
         page = paginator.num_pages
         books_obj = paginator.page(page)
 
-    context = {'books_obj': books_obj, 'paginator': paginator}
+    context = {'books_obj': books_obj, 'paginator': paginator, 'filteredData': filterData}
     return render(request, 'books/listBooks.html', context)
 
 

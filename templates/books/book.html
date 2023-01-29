@@ -12,8 +12,24 @@
     <center>
         <p>ISBN: {{ book.isbn }}</p>
         <p>Title: {{ book.name }}</p>
-        <p>Authors: {{ book.author }}</p>
-        <p>Categories: {{ book.category }}</p>
+        <p>Authors: 
+            {% for author in book.authors.all %}
+                {% if forloop.last %}
+                    {{author}}
+                {% else %}
+                    {{author}},
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>Categories: 
+            {% for category in book.categories.all %}
+                {% if forloop.last %}
+                    {{category}}
+                {% else %}
+                    {{category}},
+                {% endif %}
+            {% endfor %}
+        </p>
     </center>
 </div>
 {% endblock content %}
