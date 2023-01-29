@@ -6,7 +6,7 @@ def home_view(request):
     if not request.user.is_authenticated:
         return HttpResponseRedirect('/login')
 
-    return render(request, 'index.html')  # Fathi view
+    # return render(request, 'index.html')  # Fathi view
     #if request.user.is_authenticated:
     #    return HttpResponseRedirect('afterlogin')
     # return render(request,'index.html')
