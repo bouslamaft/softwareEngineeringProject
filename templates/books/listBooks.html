@@ -1,0 +1,140 @@
+{% extends 'main.html' %}
+
+{% block title %}List of Book{% endblock title %}
+
+{% block content %}
+
+<div class="container-fluid">
+  
+  <h3 class="m-4">All Books<i class="fa-solid fa-plus mt-5"></i></a></h3>
+  {% if messages %}
+    <ul class="messages">
+        {% for message in messages %}
+          <div class="alert alert-dismissible alert-success">
+            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            <span {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</span>
+          </div>
+        {% endfor %}
+    </ul>
+  {% endif %}
+
+  <script>
+    $(document).ready(function(){
+      $("#myInput").on("keyup", function() {
+        var value = $(this).val().toLowerCase();
+        $("#myTable tr").filter(function() {
+          $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+        });
+      });
+    });
+  </script>
+  <table class="table">
+    <thead>
+      <tr>
+        <th><input class="form-control" id="myInput" type="text" placeholder="Search.."></th>
+        <th>
+          <div class="dropdown">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Order by ...
+            <span class="caret"></span></button>
+            <ul class="dropdown-menu">
+              <li><center><a href="/listBooks?filter=isbn">ISBN</a></center></li>
+              <li><center><a href="/listBooks?filter=title">Title</a></center></li>
+              <li><center><a href="/listBooks">No order</a></center></li>
+            </ul>
+          </div>
+        </th>
+      </tr>
+    </thead>
+  </table>
+
+  
+
+  <div class="row">
+    <div class="col-12">
+      {% if books_obj %}
+
+      <div class="card text-white bg-primary ms-4 mr-4 mt-4 mb-4">
+        <div class="card-header">All Books</div>
+        <div class="card-body">
+          <p class="card-text">
+            <div class="table-responsive">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">ISBN</th>
+                    <th scope="col">Title</th>
+                    <th scope="col">Authors</th>
+                    <th scope="col">Categories</th>
+                    
+                  </tr>
+                </thead>
+                <tbody id="myTable">
+                  {% for book in books_obj %}
+                  <tr class="table-primary">
+                    <td>{{book.isbn}}</td>
+                    <td>{{book.name}}</td>
+                    <td>
+                      {% for author in book.authors.all %}
+                        {% if forloop.last %}
+                          {{author}}
+                        {% else %}
+                          {{author}},
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                    <td>
+                      {% for category in book.categories.all %}
+                        {% if forloop.last %}
+                          {{category}}
+                        {% else %}
+                          {{category}},
+                        {% endif %}
+                      {% endfor %}
+                    </td>
+                    <td><a class="page-link" href="/rent/{{book.isbn}}">Rent</a></td>
+                    <td><a class="page-link" href="/details/{{book.isbn}}">Details</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          </p>
+        </div>
+      </div>
+      {% else %}
+      <h5 class="alert alert-primary">No book record</h5>
+      {% endif %}
+    </div>
+  </div>
+
+  <!-- Pagination -->
+
+  {% if paginator.num_pages > 1 %}
+  <div class="m-4">
+    <ul class="pagination">
+      {% if books_obj.has_previous %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{books_obj.previous_page_number}}&filter={{filteredData}}">&laquo;</a>
+      </li>
+      {% endif %}
+      {% for page in paginator.page_range %}
+        {% if page == books_obj.number %}
+          <li class="page-item active">
+            <a class="page-link" href="?page={{page}}&filter={{filteredData}}">{{page}}</a>
+          </li>
+        {% else %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{page}}&filter={{filteredData}}">{{page}}</a>
+          </li>
+        {% endif %}
+      {% endfor %}
+      {% if books_obj.has_next %}
+      <li class="page-item">
+        <a class="page-link" href="?page={{books_obj.next_page_number}}&filter={{filteredData}}">&raquo;</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+  {% endif %}
+  <!-- End of pagination -->                            
+{% endblock content %}

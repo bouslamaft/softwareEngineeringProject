@@ -1,0 +1,51 @@
+{% extends 'main.html' %}
+
+{% block title %}List of Book{% endblock title %}
+
+{% block content %}
+<div>
+    <br></br>
+    <center><h1>{{ book.name }}</h1></center>
+    <br></br>
+    <center><img class="media-object" src="/static/images/{{ book.isbn }}.png" ></center>
+    <br></br>
+    <center>
+        <p>ISBN: {{ book.isbn }}</p>
+        <p>Title: {{ book.name }}</p>
+        <p>Authors: 
+            {% for author in book.authors.all %}
+                {% if forloop.last %}
+                    {{author}}
+                {% else %}
+                    {{author}},
+                {% endif %}
+            {% endfor %}
+        </p>
+        <p>Categories: 
+            {% for category in book.categories.all %}
+                {% if forloop.last %}
+                    {{category}}
+                {% else %}
+                    {{category}},
+                {% endif %}
+            {% endfor %}
+        </p>
+        
+        <h4>Stock: {{amm}}</h4>
+
+        <table>
+            <tr>
+                <td>
+                    <div class="page-item active">
+                        {% if amm %}
+                            <a class="page-link" href="/rentedBook/{{book.isbn}}">Rent the book</a>
+                        {% else %}
+                            <a class="page-link">There is no stock of this book</a>
+                        {% endif %}
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </center>
+</div>
+{% endblock content %}
