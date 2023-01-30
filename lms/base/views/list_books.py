@@ -41,14 +41,13 @@ def rent_view(request, isbn):
     physicalBook = PhysicalBook.objects.filter(book=book)
     
     count = 0
-    #for i in range(0, physicalBook.count()):
-        #sphycalBookHistory = PhysicalBookRentHistory.objects.filter(id=str(isbn)+"-"+str(i))
-        #if phycalBookHistory.count() > 0:
-            #count+=1
     
-    total = physicalBook.count() - count
+    for i in range(0,   physicalBook.count()):
+        pbrh = PhysicalBookRentHistory.objects.filter(physical_book=physicalBook[i])
+        if pbrh.count()==0:
+            count+=1
     
-    context = {'book':book, 'physicalBook': physicalBook, 'amm': total}
+    context = {'book':book, 'physicalBook': physicalBook, 'amm': count}
     return render(request, 'books/rent.html', context)
 
 def rented_book_view(request, isbn):
@@ -58,10 +57,13 @@ def rented_book_view(request, isbn):
     current_dateTime = datetime.now()
     deadline_dateTime = current_dateTime + timedelta(days=14)
     
-    
-    
-    pbrh = PhysicalBookRentHistory(rented_by=current_user, physical_book=physicalBook[0],rented_on=current_dateTime, rent_deadline=deadline_dateTime)
-    pbrh.save()
+    rent = 0
+    for i in range(0,   physicalBook.count()):
+        pbrh = PhysicalBookRentHistory.objects.filter(physical_book=physicalBook[i])
+        if pbrh.count()==0 and rent==0:
+            rent+=1
+            pbrh = PhysicalBookRentHistory(rented_by=current_user, physical_book=physicalBook[i],rented_on=current_dateTime, rent_deadline=deadline_dateTime)
+            pbrh.save()
     
     return redirect('/listBooks')
 

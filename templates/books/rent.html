@@ -35,18 +35,13 @@
 
         <table>
             <tr>
-                <!--
-                <td>
-                    <select class="form-control" id="exampleFormControlSelect1">
-                        {% for i in physicalBook %}
-                            <option value="{{forloop.counter}}">{{forloop.counter}}</option>
-                        {% endfor %}
-                    </select>
-                </td>
-                -->
                 <td>
                     <div class="page-item active">
-                        <a class="page-link" href="/rentedBook/{{book.isbn}}">Rent the book</a>
+                        {% if amm %}
+                            <a class="page-link" href="/rentedBook/{{book.isbn}}">Rent the book</a>
+                        {% else %}
+                            <a class="page-link">There is no stock of this book</a>
+                        {% endif %}
                     </div>
                 </td>
             </tr>

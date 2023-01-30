@@ -21,5 +21,9 @@ def home_view(request):
     
     books = Book.objects.filter(categories=filterValue)
     
-    context = {'books_obj': books[1:], 'book_ind':books[0], 'category': filterValue}
+    print(filterValue)
+    print(books)
+    print(books.count())
+    
+    context = {'books_obj': books[1:4], 'book_ind':books[0], 'category': filterValue}
     return render(request, 'index.html', context)  # Fathi view
