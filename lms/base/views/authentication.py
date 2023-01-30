@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http.request import HttpRequest
 from django.http.response import HttpResponse
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.forms import Form, CharField, EmailField, TextInput, PasswordInput
 
@@ -54,3 +54,9 @@ def registration_view(request: HttpRequest) -> HttpResponse:
 
     context["form"] = RegistrationForm()
     return render(request, "login/registration.html", context)
+
+
+def logout_view(request: HttpRequest) -> HttpResponse:
+    logout(request)
+
+    return redirect("/")

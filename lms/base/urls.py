@@ -7,7 +7,7 @@ from lms.base.views.librarian import librarian_view
 from lms.base.views.home import home_view
 from lms.base.views.about_us import about_us_view
 from lms.base.views.list_books import list_books_view
-from lms.base.views.authentication import login_view, registration_view
+from lms.base.views.authentication import login_view, registration_view, logout_view
 from lms.base.views.list_books import rent_view, rented_book_view
 from lms.base.views.list_books import book_view
 
@@ -28,7 +28,7 @@ urlpatterns = [
 
     path('login/', login_view, name='login'),
     path('registration/', registration_view, name='registration'),
-    path('logout/', LogoutView.as_view(template_name='index.html')),
+    path('logout/', logout_view),
 
     path('aboutus', about_us_view),
     # path('contactus', views.contactus_view),

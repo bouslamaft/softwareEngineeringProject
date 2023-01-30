@@ -2,13 +2,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 
 from lms.storage.models import Book, Category
-import random
 
 
 def home_view(request):
-    if not request.user.is_authenticated:
-        return HttpResponseRedirect('/login')
-
     random_category = _random_category()
     books_query = Book.objects.filter(categories=random_category)
     books = list(books_query)
