@@ -4,9 +4,10 @@ from django.test import TestCase
 from freezegun import freeze_time
 
 from lms.storage.models import PhysicalBook, PhysicalBookRentHistory, Book
+from django.contrib.auth.models import User
+
 
 class PhysicalBookTestCase(TestCase):
-
 
     @freeze_time(date(year=2023, month=1, day=1))
     def test_is_currently_rented_happy_path(self):
@@ -41,10 +42,35 @@ class PhysicalBookTestCase(TestCase):
         self.assertFalse(physical_book.is_currently_rented)
 
 
+class LoginViewTest(TestCase):
+    def test_logging_in_with_real_credentials_redirects_on_success_and_sets_cookie(self):
+        user = User.objects.create_user(username="john", email="john@example.com", password="john")
+
+        response = self.client.post("/login/", {"username": user.username, "password": "john"})
+
+        self.assertEqual(response.status_code // 100, 3)
+        self.assertIsNotNone(self.client.cookies["sessionid"])
+
+    def test_logging_in_with_invalid_credentials_returns_a_message_in_the_html(self):
+        User.objects.create_user(username="john", email="john@example.com", password="john")
+
+        response = self.client.post("/login/", {"username": "aaaaaaaaaaaaaaaaaa", "password": "blablabal"})
+
+        self.assertIn("Invalid credentials please try again", response.content.decode("ascii"))
+
+    def test_register_view_creates_a_user(self):
+        r = self.client.post("/registration/", {
+            "username": "xd",
+            "email": "xd@example.com",
+            "password": "password"
+        })
+
+        self.assertEqual(User.objects.count(), 1)
+
+
 class RentBookTest(TestCase):
     def test_try_to_rent_book_not_logged_in(self):
         b = Book.objects.create(isbn="1", name="Harry Potter 1")
         response = self.client.post("/rentedBook/"+b.isbn)
-        
+
         self.assertEquals(response.status_code, 302)
-    #302

@@ -1,6 +1,5 @@
 from django.conf.urls import include
 from django.urls import path
-from django.contrib.auth.views import LogoutView
 
 from lms.base.views.student import student_view
 from lms.base.views.librarian import librarian_view
