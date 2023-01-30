@@ -43,8 +43,7 @@ def rent_view(request, isbn):
     count = 0
     
     for i in range(0,   physicalBook.count()):
-        pbrh = PhysicalBookRentHistory.objects.filter(physical_book=physicalBook[i])
-        if pbrh.count()==0:
+        if physicalBook[i].is_currently_rented == 0:
             count+=1
     
     context = {'book':book, 'physicalBook': physicalBook, 'amm': count}
