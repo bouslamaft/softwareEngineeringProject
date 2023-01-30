@@ -72,5 +72,16 @@ class RentBookTest(TestCase):
     def test_try_to_rent_book_not_logged_in(self):
         b = Book.objects.create(isbn="1", name="Harry Potter 1")
         response = self.client.post("/rentedBook/"+b.isbn)
-
         self.assertEquals(response.status_code, 302)
+        
+        response = self.client.post("/rentedBook/"+b.isbn, follow=True)
+        self.assertIn("Login", response.content.decode("ascii"))
+        
+    def test_try_to_rent_book_logged_in(self):
+        user = User.objects.create_user(username="john", email="john@example.com", password="john")
+        response = self.client.post("/login/", {"username": user.username, "password": "john"})
+        
+        b = Book.objects.create(isbn="1", name="Harry Potter 1")
+        
+        response = self.client.post("/rentedBook/"+b.isbn, follow=True)
+        self.assertIn("All Books", response.content.decode("ascii"))
