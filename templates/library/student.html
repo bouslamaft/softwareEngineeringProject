@@ -4,24 +4,47 @@
 
 {% block content %}
     
-  <style media="screen">
-  .jumbotron{
-    margin-bottom: 0px;
-  }
-  .jumbotron h1{
-    text-align: center;
-  }
-  </style>
+<div class="container-fluid">
+  <h3 class="m-4">All borrowed books</h3>
+  <div class="row">
+      <div class="col-12">
+          <div class="card text-white bg-primary ms-4 mr-4 mt-4 mb-4">
+              <div class="card-header">All borrowed books</div>
+              <div class="card-body">
+                <p class="card-text">
+                  <div class="table-responsive">
+                      <table class="table">
+                          <thead>
+                            <tr>
+                              <th scope="col">Borrower</th>
+                              <th scope="col">Book Title</th>
+                              <th scope="col">Issue Date</th>
+                              <th scope="col">Expired Date</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                              {% for book in books %}
+                            <tr class="table-primary">
+                              <td>{{book.current_rent_history.rented_by.username}}</td>
+                              <td>{{book.book.name}}</td>
+                              <td>{{book.current_rent_history.rented_on}}</td>
+                              <td>{{book.current_rent_history.rent_deadline}}</td>
+                            </tr>
+                            {% endfor %}
 
-  <br><br>
-  <div class="jumbotron">
-    <h1 class="display-4">Hello, Student</h1>
-    <p class="lead">Welcome to Online Library Management System.</p>
-    <hr class="my-4">
-    <p>You can access various features after Login.</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="studentsignup" role="button">SignUp</a>
-      <a class="btn btn-primary btn-lg" href="studentlogin" role="button">Login</a>
-    </p>
+                          </tbody>
+                        </table>
+                      </div>
+                </p>
+              </div>
+            </div>
+            {% comment %} {% else %}
+            <h5 class="alert alert-primary">No issued book record</h5>
+            {% endif %} {% endcomment %}
+      </div>
   </div>
+</div>
+
+
+</div>
 {% endblock content %} 
