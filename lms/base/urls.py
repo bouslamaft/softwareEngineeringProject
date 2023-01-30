@@ -28,7 +28,7 @@ urlpatterns = [
 
     path('login/', login_view, name='login'),
     path('registration/', registration_view, name='registration'),
-    path('logout', LogoutView.as_view(template_name='library/index.html')),
+    path('logout/', LogoutView.as_view(template_name='index.html')),
 
     path('aboutus', about_us_view),
     # path('contactus', views.contactus_view),
