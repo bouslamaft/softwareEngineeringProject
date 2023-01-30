@@ -1,3 +1,5 @@
+import datetime
+
 from django.db.models import Model, CharField, ForeignKey, SET_NULL, CASCADE, DateTimeField, ManyToManyField
 from django.contrib.auth.models import User
 
@@ -17,6 +19,13 @@ class Book(Model):
 class PhysicalBook(Model):
     id = CharField(primary_key=True, max_length=256)
     book = ForeignKey(Book, related_name="physical_books", on_delete=CASCADE)
+
+    @property
+    def is_currently_rented(self):
+        now = datetime.datetime.now()
+        n = self.rent_history.all().filter(rent_deadline__gte=now).filter(rented_on__lte=now).count()
+
+        return n != 0
 
 
 class PhysicalBookRentHistory(Model):
