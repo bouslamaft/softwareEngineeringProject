@@ -26,6 +26,13 @@ class PhysicalBook(Model):
         n = self.rent_history.all().filter(rent_deadline__gte=now).filter(rented_on__lte=now).count()
 
         return n != 0
+    @property
+    def current_rent_history(self):
+        now = datetime.datetime.now()
+        n = self.rent_history.all().filter(rent_deadline__gte=now).filter(rented_on__lte=now).first()
+
+        return n 
+    
 
 
 class PhysicalBookRentHistory(Model):
