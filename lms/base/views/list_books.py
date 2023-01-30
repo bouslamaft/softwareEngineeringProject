@@ -1,6 +1,6 @@
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, redirect
-
+from django.http import HttpResponseRedirect
 from lms.storage.models import Book, PhysicalBook, PhysicalBookRentHistory
 from datetime import datetime, timedelta
 
@@ -50,6 +50,8 @@ def rent_view(request, isbn):
     return render(request, 'books/rent.html', context)
 
 def rented_book_view(request, isbn):
+    if not request.user.is_authenticated:
+        return HttpResponseRedirect('/login')
     book = Book.objects.get(pk=isbn)
     physicalBook = PhysicalBook.objects.filter(book=book)
     current_user = request.user

@@ -41,3 +41,10 @@ class PhysicalBookTestCase(TestCase):
         self.assertFalse(physical_book.is_currently_rented)
 
 
+class RentBookTest(TestCase):
+    def test_try_to_rent_book_not_logged_in(self):
+        b = Book.objects.create(isbn="1", name="Harry Potter 1")
+        response = self.client.post("/rentedBook/"+b.isbn)
+        
+        self.assertEquals(response.status_code, 302)
+    #302
